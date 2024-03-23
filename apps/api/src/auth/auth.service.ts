@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { HttpException, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Admin } from './schemas/admin.schema';
+import { Model } from 'mongoose';
+import { JwtService } from '@nestjs/jwt';
+import { LoginAdminDto } from './dto/login-admin.dto';
+import { GetAdminDto } from './dto/get-admin.dto';
+import * as bcrypt from 'bcryptjs';
+import { RegistrationAdminDto } from './dto/registration-admin.dto';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    @InjectModel(Admin.name) private adminModel: Model<Admin>,
+    private jwtService: JwtService,
+  ) {}
+
+  async validateAdmin({ username, password }: LoginAdminDto) {
+    const foundAdmin = await this.adminModel.findOne({ username });
+
+    if (!foundAdmin) return null;
+
+    const { password: hashPassword } = foundAdmin;
+
+    if (bcrypt.compareSync(password, hashPassword))
+      return {
+        ...new GetAdminDto(foundAdmin),
+        token: this.jwtService.sign({ ...new GetAdminDto(foundAdmin) }),
+      };
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async registration({ username, password }: RegistrationAdminDto) {
+    const candidate = await this.adminModel.findOne({ username });
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    if (candidate)
+      throw new HttpException('Admin with this username already exists', 400);
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    const hashPassword = bcrypt.hashSync(password, 8);
+    const newAdmin = new this.adminModel({ username, password: hashPassword });
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    await newAdmin.save();
+
+    return {
+      ...new GetAdminDto(newAdmin),
+      token: this.jwtService.sign({ ...new GetAdminDto(newAdmin) }),
+    };
   }
 }
