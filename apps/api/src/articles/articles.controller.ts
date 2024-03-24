@@ -9,12 +9,14 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { IGetAllParams } from './entities/findAll.params';
 
 @Controller('articles')
 export class ArticlesController {
@@ -28,8 +30,8 @@ export class ArticlesController {
   }
 
   @Get()
-  async findAll() {
-    return await this.articlesService.findAll();
+  async findAll(@Query() query: IGetAllParams) {
+    return await this.articlesService.findAll(query);
   }
 
   @Get(':id')

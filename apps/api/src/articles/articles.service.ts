@@ -11,6 +11,7 @@ import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { GetArticleDto } from './dto/get-article.dto';
 import { Types } from 'mongoose';
+import { IGetAllParams } from './entities/findAll.params';
 
 @Injectable()
 export class ArticlesService {
@@ -54,9 +55,25 @@ export class ArticlesService {
     return { ...new GetArticleDto(removedArticle) };
   }
 
-  async findAll() {
-    const articles = await this.articleModel.find();
-    return articles.map((el) => ({ ...new GetArticleDto(el) }));
+  async findAll(params: IGetAllParams) {
+    const { skip, limit, searchStr, sort, isDesc } = params;
+
+    const titleFilter = searchStr && { title: new RegExp(searchStr, 'i') };
+
+    const totalCount = await this.articleModel
+      .find(titleFilter)
+      .countDocuments();
+
+    const articles = await this.articleModel
+      .find(titleFilter)
+      .sort({ [sort]: isDesc ? -1 : 1 })
+      .skip(skip)
+      .limit(limit);
+    return {
+      data: articles.map((el) => ({ ...new GetArticleDto(el) })),
+      totalCount,
+      ...params,
+    };
   }
 
   async findOne(id: Types.ObjectId) {
