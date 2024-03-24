@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.2.1",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@tanstack/react-query": "^5.28.6",
     "@tanstack/react-query-devtools": "^5.28.6",
     "@tanstack/react-router": "^1.22.3",
@@ -17,6 +19,7 @@
     "antd": "^5.15.3",
     "antd-zod": "^5.1.0",
     "axios": "^1.6.8",
+    "ckeditor": "^4.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.72.0",
@@ -29,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "aor-rich-text-input": "^1.0.2",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",

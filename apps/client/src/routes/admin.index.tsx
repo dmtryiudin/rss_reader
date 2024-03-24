@@ -1,4 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useState } from "react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminPage,
@@ -15,5 +18,15 @@ export const Route = createFileRoute("/admin/")({
 });
 
 function AdminPage() {
-  return "feefewffefewfeefw";
+  const [value, setValue] = useState("");
+
+  const handleChange: (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    _: any,
+    editor: ClassicEditor
+  ) => void = (_, editor) => {
+    const data = editor.getData();
+    setValue(data);
+  };
+  return <CKEditor editor={ClassicEditor} onChange={handleChange} />;
 }
