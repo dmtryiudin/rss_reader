@@ -68,7 +68,7 @@ export class ArticlesService {
     return { ...new GetArticleDto(article) };
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_10AM)
   async parseNew() {
     const parser = new Parser({});
     const url = this.configService.get('rssFeedUrl');
@@ -77,7 +77,7 @@ export class ArticlesService {
       return {
         title,
         pubDate: new Date(pubDate).getTime(),
-        content: rest['content:encoded'],
+        content: rest['content:encoded'] || rest.content,
         isFetched: true,
       };
     });
