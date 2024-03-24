@@ -1,19 +1,28 @@
+import { ISession } from "../types/ISession";
+import { PersistSession } from "./persistAuth";
+
+const receivedSession = PersistSession.getSession();
+
 export const auth: Auth = {
-  status: "loggedOut",
-  username: undefined,
-  login: (username: string) => {
+  status: receivedSession ? "loggedIn" : "loggedOut",
+  user: receivedSession,
+  login: async (user: ISession) => {
+    PersistSession.updateSession(user);
+
     auth.status = "loggedIn";
-    auth.username = username;
+    auth.user = user;
   },
   logout: () => {
+    PersistSession.deleteSession();
+
     auth.status = "loggedOut";
-    auth.username = undefined;
+    auth.user = undefined;
   },
 };
 
 export type Auth = {
-  login: (username: string) => void;
+  login: (user: ISession) => Promise<void>;
   logout: () => void;
   status: "loggedOut" | "loggedIn";
-  username?: string;
+  user?: ISession;
 };

@@ -15,6 +15,7 @@
     "@tanstack/react-router": "^1.22.3",
     "@tanstack/router-devtools": "^1.22.3",
     "antd": "^5.15.3",
+    "antd-zod": "^5.1.0",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

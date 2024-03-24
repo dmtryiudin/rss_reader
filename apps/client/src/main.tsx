@@ -25,24 +25,18 @@ declare module "@tanstack/react-router" {
   }
 }
 
-function App() {
-  return (
-    <RouterProvider
-      router={router}
-      defaultPreload="intent"
-      context={{
-        auth,
-      }}
-    />
-  );
-}
-
 const rootElement = document.getElementById("app")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <QueryClientProvider client={queryClient}>
-      <App />
+      <RouterProvider
+        router={router}
+        defaultPreload="intent"
+        context={{
+          auth,
+        }}
+      />
     </QueryClientProvider>
   );
 }
