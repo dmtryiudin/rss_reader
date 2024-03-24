@@ -17,6 +17,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { Types } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { IGetAllParams } from './entities/findAll.params';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('articles')
 export class ArticlesController {
@@ -30,6 +31,11 @@ export class ArticlesController {
   }
 
   @Get()
+  @ApiQuery({ name: 'limit', type: 'number' })
+  @ApiQuery({ name: 'skip', type: 'number' })
+  @ApiQuery({ name: 'searchStr', type: 'string' })
+  @ApiQuery({ name: 'sort', type: 'string' })
+  @ApiQuery({ name: 'isDesc', type: 'boolean' })
   async findAll(@Query() query: IGetAllParams) {
     return await this.articlesService.findAll(query);
   }

@@ -1,15 +1,24 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   title: string;
 
   @IsDateString()
   @IsNotEmpty()
+  @ApiProperty()
   pubDate: Date;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
+  @ApiProperty()
   content: string;
 }

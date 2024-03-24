@@ -1,6 +1,6 @@
-import { ISession } from "../types/ISession";
+import { ISession } from '../types/ISession';
 
-const sessionLSName = "storedSessionData";
+const sessionLSName = 'storedSessionData';
 
 export const PersistSession = {
   getSession(): ISession | undefined {

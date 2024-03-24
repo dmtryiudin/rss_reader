@@ -1,7 +1,7 @@
 export interface IGetAllParams {
-  limit: number;
-  skip: number;
-  searchStr: string;
-  sort: string;
-  isDesc: boolean;
+  limit?: string;
+  skip?: string;
+  searchStr?: string;
+  sort?: string;
+  isDesc?: string;
 }

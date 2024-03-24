@@ -33,9 +33,10 @@ export class ArticlesService {
   }
 
   async update(id: Types.ObjectId, updateArticleDto: UpdateArticleDto) {
+    const { title, content } = updateArticleDto;
     const foundArticle = await this.articleModel.findByIdAndUpdate(id, {
-      ...updateArticleDto,
-      pubDate: new Date(updateArticleDto.pubDate).getTime(),
+      title,
+      content,
     });
 
     if (!foundArticle) {
@@ -56,7 +57,8 @@ export class ArticlesService {
   }
 
   async findAll(params: IGetAllParams) {
-    const { skip, limit, searchStr, sort, isDesc } = params;
+    const { skip, limit, searchStr, sort } = params;
+    const isDesc = params.isDesc && JSON.parse(params.isDesc);
 
     const titleFilter = searchStr && { title: new RegExp(searchStr, 'i') };
 
@@ -67,8 +69,9 @@ export class ArticlesService {
     const articles = await this.articleModel
       .find(titleFilter)
       .sort({ [sort]: isDesc ? -1 : 1 })
-      .skip(skip)
-      .limit(limit);
+      .skip(skip ? +skip : 0)
+      .limit(limit ? +limit : 10);
+
     return {
       data: articles.map((el) => ({ ...new GetArticleDto(el) })),
       totalCount,
