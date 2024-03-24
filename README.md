@@ -2,7 +2,7 @@
 
 Set .env variables for API
 
-```bash
+```
   JWT_SECRET_KEY
   PORT
   DB_CONNECTION_URL // For MongoDB
@@ -11,11 +11,11 @@ Set .env variables for API
 
 Run project in dev mode
 
-```bash
+```
   //From "/"
   npm i
-  npm run dev /* Starts frontend and
-              /* backend
+  npm run dev // Starts frontend and
+              // backend
 ```
 
 ## Additional info
@@ -33,5 +33,5 @@ RSS_FEED_URL=https://netflixtechblog.com/feed
 
 There is a created admin account too.
 
-Admin login:admin  
-Admin password: $$AdMiN_12345$$
+Admin login:`bash admin`
+Admin password: `bash $$AdMiN_12345$$`
