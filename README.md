@@ -33,5 +33,5 @@ RSS_FEED_URL=https://netflixtechblog.com/feed
 
 There is a created admin account too.
 
-Admin login:`bash admin`
-Admin password: `bash $$AdMiN_12345$$`
+Admin login:`admin`
+Admin password: `$$AdMiN_12345$$`
